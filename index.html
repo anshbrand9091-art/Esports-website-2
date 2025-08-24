@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pro Esports Tournaments — BGMI • Free Fire MAX</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Russo+One&display=swap" rel="stylesheet">
+  <meta name="theme-color" content="#0b0f16">
+</head>
+<body>
+  <!-- Header / Nav -->
+  <header class="nav">
+    <div class="nav__left">
+      <div class="logo">PRO<span>ARENA</span></div>
+      <nav class="nav__links">
+        <a href="#home">Home</a>
+        <a href="#tournaments">Tournaments</a>
+        <a href="#posts">Posts</a>
+        <a href="#leaderboards">Leaderboards</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <div class="nav__right">
+      <button class="btn btn--ghost" id="btnPlayer">Player Login</button>
+      <button class="btn btn--primary" id="btnAdmin">Admin Login</button>
+    </div>
+  </header>
+
+  <!-- Hero / Banner Slider -->
+  <section class="hero" id="home">
+    <div class="hero__slider" id="heroSlider">
+      <div class="hero__slide active" style="--bg:url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1400&auto=format&fit=crop');">
+        <div class="hero__content">
+          <h1>BGMI Squad Showdown</h1>
+          <p>₹10,000 Prize Pool • 16 Teams • Live This Weekend</p>
+          <a href="#tournaments" class="btn btn--neon">Join Now</a>
+        </div>
+      </div>
+      <div class="hero__slide" style="--bg:url('https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=1400&auto=format&fit=crop');">
+        <div class="hero__content">
+          <h1>Free Fire MAX Solo Blitz</h1>
+          <p>Free Entry • 48 Slots • Fast Lobbies • Daily</p>
+          <a href="#tournaments" class="btn btn--neon">Register</a>
+        </div>
+      </div>
+      <div class="hero__slide" style="--bg:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1400&auto=format&fit=crop');">
+        <div class="hero__content">
+          <h1>Weekend Cup</h1>
+          <p>Community Tournament • Streamed Live on YouTube</p>
+          <a href="#tournaments" class="btn btn--neon">View Details</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero__dots" id="heroDots"></div>
+  </section>
+
+  <!-- Pinned Admin Announcements -->
+  <section class="pinned" id="pinned">
+    <div class="section__head">
+      <h2>Pinned Announcements</h2>
+      <div class="badge badge--admin" id="adminOnly_Pin">Admin</div>
+    </div>
+    <ul class="pinned__list" id="pinnedList">
+      <!-- Filled by JS; Admin can pin posts -->
+    </ul>
+  </section>
+
+  <!-- Tournaments Section -->
+  <section class="tournaments" id="tournaments">
+    <div class="section__head with-tabs">
+      <h2>Esports Tournaments</h2>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="upcoming">Upcoming</button>
+        <button class="tab" data-tab="live">Live</button>
+        <button class="tab" data-tab="completed">Completed</button>
+      </div>
+      <div class="filters">
+        <select id="gameFilter" class="select">
+          <option value="all">All Games</option>
+          <option value="bgmi">BGMI</option>
+          <option value="ff">Free Fire MAX</option>
+        </select>
+        <input id="searchBox" class="input" placeholder="Search tournaments…" />
+      </div>
+    </div>
+
+    <div class="grid" id="tournamentGrid">
+      <!-- Cards rendered by JS -->
+    </div>
+  </section>
+
+  <!-- Points Table & Registered Teams (per tournament) -->
+  <section class="boards" id="leaderboards">
+    <div class="section__head">
+      <h2>Points & Registered Teams</h2>
+    </div>
+    <div class="boards__wrap">
+      <div class="card">
+        <h3>Points Distribution</h3>
+        <table class="table">
+          <thead>
+            <tr><th>Placement</th><th>Points</th><th>Kills</th></tr>
+          </thead>
+          <tbody id="pointsTable">
+            <!-- Filled by JS -->
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Registered Teams</h3>
+        <table class="table">
+          <thead>
+            <tr><th>#</th><th>Team</th><th>Captain (IGN)</th><th>Contact</th></tr>
+          </thead>
+          <tbody id="teamsTable">
+            <!-- Filled by JS based on selected tournament -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Posts (BGMI & FF separate) -->
+  <section class="posts" id="posts">
+    <div class="section__head">
+      <h2>Game Posts & Updates</h2>
+      <div class="segmented">
+        <button class="seg active" data-game="bgmi">BGMI</button>
+        <button class="seg" data-game="ff">Free Fire MAX</button>
+      </div>
+    </div>
+    <div class="grid" id="postsGrid">
+      <!-- Rendered by JS per game segment -->
+    </div>
+  </section>
+
+  <!-- Registration Modal -->
+  <div class="modal" id="regModal" aria-hidden="true">
+    <div class="modal__dialog">
+      <button class="modal__close" id="closeReg">×</button>
+      <h3>Register for Tournament</h3>
+      <form id="regForm" class="form">
+        <div class="form__row">
+          <label>Tournament</label>
+          <input id="regTournament" class="input" readonly />
+        </div>
+        <div class="form__row">
+          <label>Team Name</label>
+          <input id="teamName" class="input" placeholder="Your team name" required />
+        </div>
+        <div class="form__row">
+          <label>Captain IGN / In-Game ID</label>
+          <input id="captainIGN" class="input" placeholder="IGN or Player ID" required />
+        </div>
+        <div class="form__row">
+          <label>WhatsApp / Discord</label>
+          <input id="contactInfo" class="input" placeholder="WhatsApp number or Discord tag" required />
+        </div>
+        <div class="form__row">
+          <label>Entry Fee</label>
+          <input id="entryFee" class="input" readonly />
+        </div>
+        <div class="upi">
+          <p>Pay via UPI and paste Transaction ID (mock):</p>
+          <div class="upi__box">
+            <div>
+              <div class="qr"></div>
+              <div class="upi__id">proarena@upi</div>
+            </div>
+            <input id="txnId" class="input" placeholder="Transaction ID" required />
+          </div>
+        </div>
+        <button class="btn btn--primary" type="submit">Confirm Registration</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Room ID / Password (locked to logged-in players) -->
+  <section class="room" id="room">
+    <div class="section__head">
+      <h2>Room ID & Password</h2>
+      <div class="lock" id="roomLock">Locked — login to view</div>
+    </div>
+    <div class="room__content" id="roomContent" hidden>
+      <div class="card">
+        <h3>BGMI Room</h3>
+        <p><strong>ID:</strong> <span id="bgmiRoomId">—</span> &nbsp; <strong>Pass:</strong> <span id="bgmiRoomPass">—</span></p>
+      </div>
+      <div class="card">
+        <h3>Free Fire Room</h3>
+        <p><strong>ID:</strong> <span id="ffRoomId">—</span> &nbsp; <strong>Pass:</strong> <span id="ffRoomPass">—</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" id="contact">
+    <div class="footer__grid">
+      <div>
+        <div class="logo">PRO<span>ARENA</span></div>
+        <p>Daily esports tournaments for BGMI & Free Fire MAX. Fair play, fast payouts, pro vibes.</p>
+      </div>
+      <div>
+        <h4>Quick Links</h4>
+        <ul class="list">
+          <li><a href="player-login.html">Player Login</a></li>
+          <li><a href="admin-login.html">Admin Login</a></li>
+          <li><a href="#tournaments">Tournaments</a></li>
+          <li><a href="#posts">Game Posts</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Support</h4>
+        <ul class="list">
+          <li><a href="#">Rules &amp; Policies</a></li>
+          <li><a href="#">Join Discord</a></li>
+          <li><a href="#">Email: support@proarena.gg</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">© <span id="year"></span> PROARENA. All rights reserved.</div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
